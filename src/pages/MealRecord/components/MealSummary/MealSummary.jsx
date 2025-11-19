@@ -18,12 +18,29 @@ const MealSummary = () => {
 
   return (
     <div className={styles.meal_summary}>
-      {order.map((type) => (
-        <div key={type} className={styles.meal_box} onClick={() => setEditType(type)}>
-          <strong>{labels[type]}</strong>
-          <div>{meals[type]?.join(", ") || `오늘의 ${labels[type]} 기록을 해주세요`}</div>
-        </div>
-      ))}
+      {order.map((type) => {
+        const mealList = meals[type] || [];
+        const hasMeal = mealList.length > 0;
+
+        const time = hasMeal ? mealList[0].time : null;
+
+        const menus = hasMeal ? mealList.map((i) => i.text).join(", ") : null;
+
+        return (
+          <div key={type} className={styles.meal_box} onClick={() => setEditType(type)}>
+            <strong>{labels[type]}</strong>
+
+            {hasMeal ? (
+              <div>
+                <p className={styles.time}>{time}</p>
+                <p className={styles.menu}>{menus}</p>
+              </div>
+            ) : (
+              <div>오늘의 {labels[type]}을 기록 해주세요!</div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };
