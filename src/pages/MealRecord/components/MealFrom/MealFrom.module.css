@@ -127,6 +127,7 @@
 .btn_wrap {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 
   gap: 10px;
 }
@@ -165,4 +166,9 @@
 .btn_wrap button:last-of-type:hover {
   color: var(--main);
   border-color: var(--main);
+}
+
+@media all and (max-width: 1024px) {
+}
+@media all and (max-width: 768px) {
 }

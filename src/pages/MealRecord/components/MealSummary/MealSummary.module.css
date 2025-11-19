@@ -33,3 +33,7 @@
   letter-spacing: 0;
   color: var(--blue);
 }
+@media all and (max-width: 1024px) {
+}
+@media all and (max-width: 768px) {
+}

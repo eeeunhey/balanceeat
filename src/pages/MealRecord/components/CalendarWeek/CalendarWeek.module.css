@@ -52,3 +52,7 @@
 .date_list > li > .score_circle.low {
   background: var(--red);
 }
+@media all and (max-width: 1024px) {
+}
+@media all and (max-width: 768px) {
+}
