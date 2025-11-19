@@ -6,22 +6,32 @@ import styles from "./CalendarWeek.module.css";
 const CalendarWeek = () => {
   const { selectedDate, setSelectedDate } = useMealStore();
 
-  // 기본값: 오늘 날짜
-  const baseDate = selectedDate || new Date().toISOString().slice(0, 10);
-
-  const weekDates = getWeekDates(baseDate);
+  const weekDates = getWeekDates(selectedDate);
 
   return (
-    <div className={styles.calendar_week}>
-      {weekDates.map((date) => (
-        <div
-          key={date}
-          className={`date-box ${selectedDate === date ? "active" : ""}`}
-          onClick={() => setSelectedDate(date)}
-        >
-          {date.split("-")[2]}
-        </div>
-      ))}
+    <div className={styles.calendar}>
+      <ul className={styles.day_list}>
+        <li>일</li>
+        <li>월</li>
+        <li>화</li>
+        <li>수</li>
+        <li>목</li>
+        <li>금</li>
+        <li>토</li>
+      </ul>
+
+      <ul className={styles.date_list}>
+        {weekDates.map((date) => (
+          <li
+            key={date}
+            className={`${selectedDate === date ? styles.active : ""}`}
+            onClick={() => setSelectedDate(date)}
+          >
+            <p>{date.split("-")[2]}</p>
+            <div className={styles.score_circle}></div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
