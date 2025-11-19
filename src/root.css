@@ -10,6 +10,7 @@
 
   --white: #fff;
   --border: #e5e7eb;
+  --border-active: #0284c7;
   --grayBg: #f6f8fb;
 
   --yellow: #fbbf24;
@@ -17,14 +18,21 @@
   --red: #ef4444;
   --blue: #3b82f6;
 
-  /* 폰트 */
+  /* 폰트패밀리 */
   --kor: "Pretendard Variable", "Roboto", Malgun Gothic, "Malgun Gothic", sans-serif;
   --eng: "Roboto", "Pretendard Variable", Malgun Gothic, "Malgun Gothic", sans-serif;
-  --icon: "Material Symbols Outlined";
-  --icon2: "Material Icons";
+
+  /* 폰트 사이즈 */
+  --page-title: 2.222rem;
+  --sec-title: 1.556rem;
+  --sub-title: 1.111rem;
 
   /* 높이 */
   --vh: 100%;
+
+  /* 모서리 */
+  --borderR30: 30px;
+  --borderR20: 20px;
 }
 /***** E:: 변수 *****/
 
