@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const [login, setLogin] = useState(true);
+  const [login, setLogin] = useState(false);
   const [open, setOpen] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   
@@ -21,7 +21,7 @@ const Navbar = () => {
   return (
     <>
       <div className={styles.header}>
-        <Link to={'/'} className={styles.logo}>로그자리</Link>
+        <Link to={'/'} className={styles.logo}><img className={styles.logo_img} src={'logo3.png'}></img></Link>
           <ul className={styles.nav_menu}>
             <li><Link to={'/'}>Home</Link></li>
             <li>Log</li>
