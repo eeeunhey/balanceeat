@@ -36,7 +36,7 @@
   gap: 10px;
 }
 .add_box .add_wrap input {
-  width: calc(100% - 10px - 120px);
+  width: 100%;
 
   border-radius: 10px;
   border: 1px solid transparent;
@@ -46,7 +46,34 @@
   box-sizing: border-box;
   padding: 10px;
 }
-.add_box .add_wrap button {
+.add_box .add_wrap div {
+  /* 음식 검색 부분 */
+  width: calc((100% - 130px) / 2);
+}
+.add_box .add_wrap .search {
+  display: flex;
+  gap: 0;
+}
+.add_box .add_wrap .search input {
+  border-radius: 10px 0 0 10px;
+}
+.add_box .add_wrap .search .search_btn {
+  background: var(--grayBg);
+  border-radius: 0 10px 10px 0;
+  border: none;
+
+  padding: 10px;
+  box-sizing: border-box;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.add_box .add_wrap .search .search_btn:hover {
+  background: var(--main);
+  color: var(--white);
+  border-radius: 10px;
+}
+.add_box .add_wrap .add_btn {
   width: 110px;
 
   padding: 10px;
@@ -61,7 +88,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.add_box .add_wrap button:hover {
+.add_box .add_wrap .add_btn:hover {
   background: var(--white);
   color: var(--black);
   border-color: var(--main);
