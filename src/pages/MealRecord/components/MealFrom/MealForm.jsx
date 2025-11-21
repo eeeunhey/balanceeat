@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useMealStore } from "../../../../stores/useMealStore";
-import styles from "./MealFrom.module.css";
+import styles from "./MealForm.module.css";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate } from "react-router-dom";
 import { useFoodListQuery } from "../../../../hooks/useFoodListQuery";
+import { useMealNutrition } from "../../../../hooks/useMealNutrition";
+import { Navigate } from "react-router-dom";
 
 const MealForm = () => {
   const { selectedDate, editType, getMealsByDate, saveMeal, setEditType } = useMealStore();
 
   const todayMeals = getMealsByDate(selectedDate);
 
-  // 기존 상태
   const [type, setType] = useState(editType || "breakfast");
   const [items, setItems] = useState(todayMeals[type] || []);
   const [time, setTime] = useState("00:00");
 
-  // 검색 관련 상태
   const [input, setInput] = useState("");
   const [keyword, setKeyword] = useState("");
   const [selectedFood, setSelectedFood] = useState(null);
@@ -24,13 +23,16 @@ const MealForm = () => {
 
   const { data: foodList, isLoading } = useFoodListQuery(keyword);
 
+  // 영양 계산 훅
+  const { data: summary, refetch, isFetching } = useMealNutrition(selectedDate, type, items);
+
   useEffect(() => {
     setType(editType || "breakfast");
   }, [editType]);
 
   useEffect(() => {
-    const updatedMeals = getMealsByDate(selectedDate);
-    setItems(updatedMeals[type] || []);
+    const updated = getMealsByDate(selectedDate);
+    setItems(updated[type] || []);
   }, [type, selectedDate]);
 
   const generateTimes = () => {
@@ -48,10 +50,11 @@ const MealForm = () => {
     if (!input.trim()) return;
     setKeyword(input);
   };
+
   const selectFood = (food) => {
     setSelectedFood(food);
-    setInput(food.name); // 🔥 입력창에 선택된 음식 반영
-    setKeyword(""); // 검색 리스트 닫기
+    setInput(food.name);
+    setKeyword("");
   };
 
   const addItem = () => {
@@ -77,25 +80,32 @@ const MealForm = () => {
     setEditType(null);
   };
 
-  const removeItem = (index) => {
-    setItems((prev) => prev.filter((_, i) => i !== index));
+  const removeItem = (idx) => {
+    setItems((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  const deleteAll = () => {
-    setItems([]);
-  };
+  const deleteAll = () => setItems([]);
 
-  const navigate = useNavigate();
-  const goToReport = () => {
+  const goToReport = async () => {
     save();
-    navigate("/report");
+
+    const result = await refetch(); // 버튼 클릭 시 **영양분석 실행**
+
+    Navigate("/report", {
+      state: {
+        summary: result.data,
+        items,
+        type,
+        date: selectedDate,
+      },
+    });
   };
 
   if (!selectedDate) return null;
 
   return (
     <div className={styles.meal_form}>
-      {/* 식사 타입 & 시간 선택 */}
+      {/* 식사 타입 & 시간 */}
       <div className={styles.meal_select}>
         <div className={styles.select_wrap}>
           <span className={styles.small_title}>식사 타입</span>
@@ -124,7 +134,6 @@ const MealForm = () => {
         <span className={styles.small_title}>음식 검색</span>
         <div className={styles.add_wrap}>
           <div className={styles.search}>
-            {/* 검색 창 */}
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -132,13 +141,12 @@ const MealForm = () => {
               placeholder="음식명 입력"
               className={styles.food_search_input}
             />
-            {/* 검색 버튼 */}
             <button onClick={handleSearch} className={styles.search_btn}>
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
           </div>
+
           <div className={styles.gram}>
-            {/* 그램 입력 */}
             <input
               type="number"
               placeholder="그램(숫자만)"
@@ -146,14 +154,13 @@ const MealForm = () => {
               onChange={(e) => setGram(e.target.value)}
               className={styles.gram_input}
             />
-            {/* 추가 버튼 */}
           </div>
+
           <button onClick={addItem} className={styles.add_btn}>
             추가
           </button>
         </div>
 
-        {/* 검색 결과 드롭 */}
         {keyword && (
           <ul className={styles.search_list}>
             {isLoading && <li>검색 중...</li>}
@@ -166,7 +173,7 @@ const MealForm = () => {
         )}
       </div>
 
-      {/* 입력된 식단 리스트 */}
+      {/* 입력 리스트 */}
       <div className={styles.items_box}>
         <span className={styles.small_title}>입력한 식단</span>
         <div className={styles.items_wrap}>
@@ -192,7 +199,7 @@ const MealForm = () => {
       <div className={styles.btn_wrap}>
         <button onClick={save}>저장하기</button>
         <button onClick={deleteAll}>전체 삭제</button>
-        <button onClick={goToReport}>요약 보러 가기</button>
+        <button onClick={goToReport}>{isFetching ? "분석 중..." : "요약 보러 가기"}</button>
       </div>
     </div>
   );
