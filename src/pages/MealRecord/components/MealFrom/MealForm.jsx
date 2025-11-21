@@ -1,18 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useMealStore } from "../../../../stores/useMealStore";
 import styles from "./MealFrom.module.css";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import { useFoodListQuery } from "../../../../hooks/useFoodListQuery";
 
 const MealForm = () => {
   const { selectedDate, editType, getMealsByDate, saveMeal, setEditType } = useMealStore();
+
   const todayMeals = getMealsByDate(selectedDate);
 
+  // 기존 상태
   const [type, setType] = useState(editType || "breakfast");
   const [items, setItems] = useState(todayMeals[type] || []);
-  const [input, setInput] = useState("");
   const [time, setTime] = useState("00:00");
+
+  // 검색 관련 상태
+  const [input, setInput] = useState("");
+  const [keyword, setKeyword] = useState("");
+  const [selectedFood, setSelectedFood] = useState(null);
+  const [gram, setGram] = useState("");
+
+  const { data: foodList, isLoading } = useFoodListQuery(keyword);
 
   useEffect(() => {
     setType(editType || "breakfast");
@@ -34,10 +44,32 @@ const MealForm = () => {
     return times;
   };
 
+  const handleSearch = () => {
+    if (!input.trim()) return;
+    setKeyword(input);
+  };
+  const selectFood = (food) => {
+    setSelectedFood(food);
+    setInput(food.name); // 🔥 입력창에 선택된 음식 반영
+    setKeyword(""); // 검색 리스트 닫기
+  };
+
   const addItem = () => {
-    if (input.trim() === "") return;
-    setItems((prev) => [...prev, { time, text: input }]);
+    if (!selectedFood || !gram) return;
+
+    const newItem = {
+      time,
+      name: selectedFood.name,
+      gram: Number(gram),
+      code: selectedFood.code,
+      text: `${selectedFood.name} ${gram}g`,
+    };
+
+    setItems((prev) => [...prev, newItem]);
+
     setInput("");
+    setSelectedFood(null);
+    setGram("");
   };
 
   const save = () => {
@@ -55,6 +87,7 @@ const MealForm = () => {
 
   const navigate = useNavigate();
   const goToReport = () => {
+    save();
     navigate("/report");
   };
 
@@ -62,6 +95,7 @@ const MealForm = () => {
 
   return (
     <div className={styles.meal_form}>
+      {/* 식사 타입 & 시간 선택 */}
       <div className={styles.meal_select}>
         <div className={styles.select_wrap}>
           <span className={styles.small_title}>식사 타입</span>
@@ -85,19 +119,54 @@ const MealForm = () => {
         </div>
       </div>
 
+      {/* 음식 검색 */}
       <div className={styles.add_box}>
-        <span className={styles.small_title}>음식명</span>
+        <span className={styles.small_title}>음식 검색</span>
         <div className={styles.add_wrap}>
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addItem()}
-          />
-
-          <button onClick={addItem}>추가</button>
+          <div className={styles.search}>
+            {/* 검색 창 */}
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              placeholder="음식명 입력"
+              className={styles.food_search_input}
+            />
+            {/* 검색 버튼 */}
+            <button onClick={handleSearch} className={styles.search_btn}>
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </button>
+          </div>
+          <div className={styles.gram}>
+            {/* 그램 입력 */}
+            <input
+              type="number"
+              placeholder="그램(숫자만)"
+              value={gram}
+              onChange={(e) => setGram(e.target.value)}
+              className={styles.gram_input}
+            />
+            {/* 추가 버튼 */}
+          </div>
+          <button onClick={addItem} className={styles.add_btn}>
+            추가
+          </button>
         </div>
+
+        {/* 검색 결과 드롭 */}
+        {keyword && (
+          <ul className={styles.search_list}>
+            {isLoading && <li>검색 중...</li>}
+            {foodList?.map((food) => (
+              <li key={food.code} onClick={() => selectFood(food)}>
+                {food.name}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
+      {/* 입력된 식단 리스트 */}
       <div className={styles.items_box}>
         <span className={styles.small_title}>입력한 식단</span>
         <div className={styles.items_wrap}>
@@ -105,10 +174,11 @@ const MealForm = () => {
             <span>식사 시간 : </span>
             {time}
           </p>
+
           <ul className={styles.item_list}>
-            {items.map((i, idx) => (
+            {items.map((item, idx) => (
               <li key={idx}>
-                <p>{i.text}</p>
+                <p>{item.text}</p>
                 <button onClick={() => removeItem(idx)}>
                   <FontAwesomeIcon icon={faXmark} />
                 </button>
@@ -118,6 +188,7 @@ const MealForm = () => {
         </div>
       </div>
 
+      {/* 버튼 */}
       <div className={styles.btn_wrap}>
         <button onClick={save}>저장하기</button>
         <button onClick={deleteAll}>전체 삭제</button>
