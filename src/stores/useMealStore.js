@@ -3,14 +3,13 @@ import { getToday } from "../utils/getToday";
 
 export const useMealStore = create((set, get) => ({
   meals: {},
+  analysis: {},
   selectedDate: getToday(),
   editType: null,
 
   setSelectedDate: (date) => set({ selectedDate: date, editType: null }),
-
   setEditType: (type) => set({ editType: type }),
 
-  // 전체 끼니 합산
   saveMeal: (date, type, items) => {
     const { meals } = get();
     set({
@@ -21,19 +20,31 @@ export const useMealStore = create((set, get) => ({
           [type]: [...items],
         },
       },
+      analysis: {
+        ...get().analysis,
+        [date]: null, // 식단 변경 시 기존 분석 무효화
+      },
     });
   },
 
-  // 끼니별
+  saveAnalysis: (date, type, data) =>
+    set({
+      analysis: {
+        ...get().analysis,
+        [date]: {
+          ...(get().analysis[date] || {}),
+          [type]: data,
+        },
+      },
+    }),
+
+  getAnalysisByDate: (date, type) => {
+    const { analysis } = get();
+    return analysis[date]?.[type] || null;
+  },
+
   getMealsByDate: (date) => {
     const { meals } = get();
-    return (
-      meals[date] || {
-        breakfast: [],
-        lunch: [],
-        dinner: [],
-        snack: [],
-      }
-    );
+    return meals[date] || { breakfast: [], lunch: [], dinner: [], snack: [] };
   },
 }));
