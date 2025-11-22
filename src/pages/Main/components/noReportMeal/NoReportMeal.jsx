@@ -15,6 +15,7 @@ const NoReportMeal = () => {
   const { selectedDate, getMealsByDate } = useMealStore();
   const { setTodaySummary, setRecommendList } = useTodaySummary();
   const [meals, setMeals] = useState(getMealsByDate(getToday()));
+  const [isLoading, setIsLoading] = useState(false);
 
   // 페이드업 효과
   const fadeUp = {
@@ -45,6 +46,7 @@ const NoReportMeal = () => {
     setTodaySummary(ai.todaySummary);
     setRecommendList(ai.recommendMenu);
 
+    setIsLoading(false);
     navigate("/");
   };
 
@@ -59,7 +61,7 @@ const NoReportMeal = () => {
         <div className={styles.summary_content}>
           <div className={styles.content}>
             오늘 식단을 입력하지않았어요! <br />
-            오늘 드신 식단을 먼저 입력하러 가실까요? 😊
+            오늘의 식단을 먼저 입력하러 가실까요? 😊
           </div>
           <div>
             <button className={styles.summary_button} onClick={goRecord}>
@@ -75,7 +77,8 @@ const NoReportMeal = () => {
           </div>
           <div>
             <button className={styles.summary_button} onClick={goTodaySummary}>
-              오늘 요약 보러가기"
+              오늘 요약 보러가기
+              {isLoading ? "요약 하는중..." : "오늘 요약 보러가기"}
             </button>
           </div>
         </div>
