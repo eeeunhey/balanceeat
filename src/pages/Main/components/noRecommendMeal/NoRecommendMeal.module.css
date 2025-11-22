@@ -1,9 +1,9 @@
-.recommend_box{
+.recommend_box {
   padding: 30px;
   margin-bottom: 40px;
 }
 
-.recommend_box h2{
+.recommend_box h2 {
   margin-bottom: 25px;
 }
 
@@ -25,15 +25,15 @@
 }
 
 .small_content {
-    font-size: medium;
-    font-weight: bolder;
-    text-align: center;
+  font-size: medium;
+  font-weight: bolder;
+  text-align: center;
 }
 
 .content {
-    font-size: larger;
-    font-weight: bolder;
-    text-align: center;
+  font-size: larger;
+  font-weight: bolder;
+  text-align: center;
 }
 
 /* ========================================================= */

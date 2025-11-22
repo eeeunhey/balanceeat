@@ -1,7 +1,7 @@
-import React from 'react'
-import styles from './RecommendItem.module.css'
+import React from "react";
+import styles from "./RecommendItem.module.css";
 
-const RecommendItem = ({item}) => {
+const RecommendItem = ({ item }) => {
   return (
     <div className={styles.recommend_item}>
       <h4>{item.title}</h4>
@@ -16,7 +16,7 @@ const RecommendItem = ({item}) => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RecommendItem
+export default RecommendItem;

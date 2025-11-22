@@ -112,8 +112,7 @@ const SettingsPage = () => {
             <p>
               권장 섭취량:
               <strong> {recommendation.kcal}kcal </strong>
-              (탄 {recommendation.c}g / 단 {recommendation.p}g / 지{" "}
-              {recommendation.f}g)
+              (탄 {recommendation.c}g / 단 {recommendation.p}g / 지 {recommendation.f}g)
             </p>
           </div>
           <button className={styles.applyButton} onClick={applyRecommendation}>
@@ -126,9 +125,7 @@ const SettingsPage = () => {
         {/* 상세 설정 */}
         <section className={styles.section}>
           <h3>상세 목표 설정</h3>
-          <p className={styles.sectionSubtitle}>
-            가이드를 참고해 직접 수정할 수 있어요.
-          </p>
+          <p className={styles.sectionSubtitle}>가이드를 참고해 직접 수정할 수 있어요.</p>
 
           {/* 칼로리 */}
           <div className={styles.inputGroup} style={{ marginBottom: "1.5rem" }}>
@@ -137,9 +134,7 @@ const SettingsPage = () => {
               <input
                 type="number"
                 value={calories}
-                onChange={(e) =>
-                  updateEditor("calories", Number(e.target.value))
-                }
+                onChange={(e) => updateEditor("calories", Number(e.target.value))}
                 className={styles.mainInput}
               />
               <span className={styles.unitText}>kcal</span>
@@ -154,9 +149,7 @@ const SettingsPage = () => {
                 <input
                   type="number"
                   value={carbs}
-                  onChange={(e) =>
-                    updateEditor("carbs", Number(e.target.value))
-                  }
+                  onChange={(e) => updateEditor("carbs", Number(e.target.value))}
                 />
                 <span>g</span>
               </div>
@@ -168,9 +161,7 @@ const SettingsPage = () => {
                 <input
                   type="number"
                   value={protein}
-                  onChange={(e) =>
-                    updateEditor("protein", Number(e.target.value))
-                  }
+                  onChange={(e) => updateEditor("protein", Number(e.target.value))}
                 />
                 <span>g</span>
               </div>
