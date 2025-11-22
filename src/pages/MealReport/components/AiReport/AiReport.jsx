@@ -1,69 +1,91 @@
 import React, { useState } from "react";
 import styles from "./AiReport.module.css";
 
-const AiReport = ({ data, remainingCount = 3 }) => {
-  const [showReport, setShowReport] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+import { useNutritionStore } from "../../../../stores/useNutritionStore";
+import { useAiStore } from "../../../../stores/useAiStore";
+import { getMealAiReport } from "../../../../utils/geminiAiApi";
 
-  const handleGetReport = () => {
-    if (remainingCount <= 0) {
-      alert("오늘의 AI 분석 횟수를 모두 사용하셨습니다.");
+const AiReport = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { totalNutrition } = useNutritionStore();
+  const { report, setReport } = useAiStore();
+  const [count, setCount] = useState(3);
+
+  const handleGetReport = async () => {
+    if (count <= 0) return;
+
+    if (!totalNutrition) {
+      alert("영양 분석이 먼저 필요합니다.");
       return;
     }
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-      setShowReport(true);
-    }, 1500);
+    const aiResult = await getMealAiReport(totalNutrition);
+
+    setReport(aiResult);
+    setCount((prev) => prev - 1); // 횟수 차감
+    setIsLoading(false);
   };
 
   return (
     <div className={styles.card}>
-      {!showReport && !isLoading && (
+      {/* 처음 분석 전 */}
+      {!report && !isLoading && (
         <div className={styles.placeholder}>
-          <p>
-            구체적인 조언이 필요하신가요?
-            <br />
-            AI를 통해 이번 식사를 분석해보세요
-          </p>
+          <p>AI를 통해 이 식사를 분석해보세요</p>
           <p className={styles.limitInfo}>
-            (남은 횟수: <strong>{remainingCount}회</strong> / 3회)
+            (남은 횟수: <strong>{count}회</strong> / 3회)
           </p>
-          <button className={styles.analyzeButton} onClick={handleGetReport}>
+          <button className={styles.analyzeButton} onClick={handleGetReport} disabled={count <= 0}>
             AI 리포트 받아보기
           </button>
         </div>
       )}
 
+      {/* 로딩 */}
       {isLoading && (
         <div className={styles.loadingState}>
           <div className={styles.spinner}></div>
-          <p>AI가 식단을 분석하고 있어요... </p>
+          <p>AI가 식단을 분석하고 있어요...</p>
         </div>
       )}
 
-      {showReport && (
+      {/* 분석 결과 */}
+      {report && !isLoading && (
         <div className={styles.reportContent}>
           <h3>이번 식사 피드백</h3>
-          <p className={styles.cardSubtitle}>
-            더 건강한 한끼를 위해 AI의 맞춤 조언을 확인해 보세요.
+
+          <strong>영양 점수: {report.score} / 100</strong>
+
+          <ul>
+            {report.tags.map((t, i) => (
+              <li key={i}>{t}</li>
+            ))}
+          </ul>
+
+          <p className={styles.aiComment}>{report.comment}</p>
+
+          {/* 다시 요청 버튼 */}
+          <button
+            className={`${styles.analyzeButton} ${styles.retry}`}
+            onClick={handleGetReport}
+            disabled={count <= 0}
+          >
+            리포트 다시 받기
+          </button>
+
+          {/* 횟수 정보 */}
+          <p className={styles.limitInfo}>
+            (남은 횟수: <strong>{count}회</strong> / 3회)
           </p>
-          <div className={styles.scoreSection}>
-            <strong>영양 점수: {data.score} / 100</strong>
-          </div>
-          <div className={styles.tagsSection}>
-            <p>부족/과다 태그:</p>
-            <ul>
-              {data.tags.map((tag, index) => (
-                <li key={index}>{tag}</li>
-              ))}
-            </ul>
-          </div>
-          <div className={styles.aiComment}>
-            <p>{data.comment}</p>
-          </div>
+
+          {/* 소진 문구 */}
+          {count <= 0 && (
+            <p className={styles.exhaustedNotice}>
+              오늘 사용 가능한 분석 횟수가 모두 소진되었습니다.
+            </p>
+          )}
         </div>
       )}
     </div>
