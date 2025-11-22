@@ -58,7 +58,7 @@ const SettingsPage = () => {
   return (
     <div className={styles.pageWrapper}>
       <div className={styles.header}>
-        <span className={styles.categoryLabel}>SETTINGS</span>
+        {/* <span className={styles.categoryLabel}>SETTINGS</span> */}
         <h2>나의 목표 설정</h2>
         <p>신체 정보와 목표에 맞춰 권장 섭취량을 확인하고 설정해보세요.</p>
       </div>
