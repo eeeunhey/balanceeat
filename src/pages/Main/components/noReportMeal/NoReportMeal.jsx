@@ -39,7 +39,7 @@ const NoReportMeal = () => {
   };
 
   return (
-    <motion.div className={styles.summary_card} initial='hidden' animate='show' variants={fadeUp}>
+    <motion.div className={styles.summary_card} initial="hidden" animate="show" variants={fadeUp}>
       <h2>오늘 요약</h2>
       <p className={styles.summary_desc}>
         오늘 날짜 기준으로 영양 점수, 부족/과다한 영양소, 추천 메뉴를 한눈에 확인해요.
@@ -60,19 +60,17 @@ const NoReportMeal = () => {
       </div>
       :
       <div className={styles.summary_content}>
-        <div className={styles.content}>
-            오늘의 요약을 아직 안 보셨군요!
-        </div>
-        <div className={styles.content}>
-            오늘의 요약을 확인하실까요? 😊
-        </div>
+        <div className={styles.content}>오늘의 요약을 아직 안 보셨군요!</div>
+        <div className={styles.content}>오늘의 요약을 확인하실까요? 😊</div>
         <div>
-            <button className={styles.summary_button} onClick={goTodaySummary}>오늘의 요약 보러가기</button>
+          <button className={styles.summary_button} onClick={goTodaySummary}>
+            오늘의 요약 보러가기
+          </button>
         </div>
       </div>
       }
     </motion.div>
-  )
-}
+  );
+};
 
-export default NoReportMeal
+export default NoReportMeal;

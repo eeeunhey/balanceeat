@@ -1,12 +1,12 @@
-import React from 'react'
-import styles from './MobileNavbar.module.css'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import styles from "./MobileNavbar.module.css";
+import { useNavigate } from "react-router-dom";
 
-const MobileNavbar = ({open, onClose}) => {
+const MobileNavbar = ({ open, onClose }) => {
   const navigate = useNavigate();
 
   const goHome = () => {
-    navigate('/');
+    navigate("/");
     onClose();
   };
 
@@ -22,11 +22,13 @@ const MobileNavbar = ({open, onClose}) => {
 
   return (
     <div>
-      <div className={`${styles.backdrop} ${open ? styles.show : ''}`} onClick={onClose}></div>
+      <div className={`${styles.backdrop} ${open ? styles.show : ""}`} onClick={onClose}></div>
 
-      <nav className={`${styles.mobile_nav} ${open ? styles.open : ''}`}>
+      <nav className={`${styles.mobile_nav} ${open ? styles.open : ""}`}>
         <div className={styles.mobile_nav_header}>
-          <span className={styles.close_btn} onClick={onClose}>✕</span>
+          <span className={styles.close_btn} onClick={onClose}>
+            ✕
+          </span>
         </div>
 
         <ul>
@@ -36,7 +38,7 @@ const MobileNavbar = ({open, onClose}) => {
         </ul>
       </nav>
     </div>
-  )
-}
+  );
+};
 
-export default MobileNavbar
+export default MobileNavbar;

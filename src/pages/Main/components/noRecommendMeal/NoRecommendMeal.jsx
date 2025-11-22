@@ -24,7 +24,7 @@ const NoRecommendMeal = () => {
   }, [meals]);
 
   return (
-    <motion.div className={styles.recommend_box} initial='hidden' animate='show' variants={fadeUp}>
+    <motion.div className={styles.recommend_box} initial="hidden" animate="show" variants={fadeUp}>
       <h2>부족 영양소 기반 메뉴 추천</h2>
       <div className={styles.today_rec_box}>
         <div className={styles.recommend_list}>
@@ -34,7 +34,7 @@ const NoRecommendMeal = () => {
         </div>
       </div>
     </motion.div>
-  )
-}
+  );
+};
 
-export default NoRecommendMeal
+export default NoRecommendMeal;

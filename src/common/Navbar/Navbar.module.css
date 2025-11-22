@@ -14,7 +14,7 @@
   font-size: 20px;
 }
 
-.logo_img{
+.logo_img {
   width: 180px;
   height: auto;
 }
@@ -34,14 +34,14 @@
 .nav_right {
   display: flex;
   align-items: center;
-  gap: 10px;        /* 버튼 간격 균등 */
-  flex-shrink: 0;   /* 버튼이 눌려 찌그러지는 것 방지 */
+  gap: 10px; /* 버튼 간격 균등 */
+  flex-shrink: 0; /* 버튼이 눌려 찌그러지는 것 방지 */
 }
 
 .user_icon {
   width: 32px;
   height: 32px;
-  min-width: 32px;      /* 반응형에서도 크기 유지 */
+  min-width: 32px; /* 반응형에서도 크기 유지 */
   min-height: 32px;
   background-color: var(--basic);
   color: var(--white);
@@ -60,7 +60,7 @@
   border: none;
   cursor: pointer;
   font-size: 14px;
-  white-space: nowrap;  /* 줄바꿈 방지 */
+  white-space: nowrap; /* 줄바꿈 방지 */
 }
 
 .hamburger {
@@ -85,7 +85,7 @@
   background: white;
   border-radius: 10px;
   padding: 12px 0;
-  box-shadow: 0px 4px 14px rgba(0,0,0,0.15);
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.15);
   width: 150px;
   z-index: 30;
   animation: fadeIn 0.2s ease;
@@ -104,8 +104,14 @@
 
 /* Fade animation */
 @keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(-5px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ========================================================= */
