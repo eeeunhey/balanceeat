@@ -1,32 +1,26 @@
 import { GoogleGenAI } from "@google/genai";
 
 const GEMINI_API_KEY = import.meta.env.VITE_API_GEMINI_KEY;
-
 const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
-export const getMealAnalysis = async (meals) => {
+export const getMealAiReport = async (nutrition) => {
   const prompt = `
-아래는 하루 식단 데이터입니다.
-JSON 형태로 분석해주세요.
-각 식사별 총 칼로리, 단백질(g), 탄수화물(g), 지방(g)까지 계산해주세요.
+당신은 영양 전문가입니다.
 
-형식:
+아래는 한 끼 식단의 총 영양 데이터와 메뉴 목록 입니다.
+이 데이터를 바탕으로 건강 점수(0~100), 부족/과다 태그(최대 3개까지 중요한 부분만), 개선 조언을 작성해주세요.
+개선 조언은 500자를 넘기지 않도록 해주세요.
+
+반드시 아래 JSON 형식으로만 응답하세요:
+
 {
   "score": number,
   "tags": [string],
-  "comment": string,
-  "totalCalories": number,
-  "protein": number,
-  "carbs": number,
-  "fat": number,
-  "goals": {
-    "protein": number,
-    "carbs": number,
-    "fat": number
-  }
+  "comment": string
 }
 
-식단: ${JSON.stringify(meals)}
+영양소 데이터:
+${JSON.stringify(nutrition)}
 `;
 
   const response = await ai.models.generateContent({
@@ -34,21 +28,12 @@ JSON 형태로 분석해주세요.
     contents: prompt,
   });
 
-  // AI 결과 텍스트 가져오기
   let text = response.candidates[0].content.parts[0].text;
 
-  // 코드블록 제거
   text = text
     .replace(/```json/g, "")
     .replace(/```/g, "")
     .trim();
 
-  // JSON 파싱
-
-  try {
-    return JSON.parse(text);
-  } catch (e) {
-    console.error("AI 분석 JSON 파싱 실패:", e);
-    return null;
-  }
+  return JSON.parse(text);
 };
