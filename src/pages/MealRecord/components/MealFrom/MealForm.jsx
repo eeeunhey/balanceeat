@@ -11,12 +11,10 @@ import styles from "./MealForm.module.css";
 
 const MealForm = () => {
   // 식단 기록/관리 스토어
-  const { selectedDate, editType, getMealsByDate, saveMeal, setEditType } =
-    useMealStore();
+  const { selectedDate, editType, getMealsByDate, saveMeal, setEditType } = useMealStore();
 
   // 영양 분석 스토어
-  const { setAnalysisItems, calculateTotal, clearAnalysis } =
-    useNutritionStore();
+  const { setAnalysisItems, calculateTotal, clearAnalysis } = useNutritionStore();
 
   const todayMeals = getMealsByDate(selectedDate);
 
@@ -206,9 +204,7 @@ const MealForm = () => {
         {keyword && (
           <ul className={styles.search_list}>
             {isLoading && <li>검색 중...</li>}
-            {!isLoading && foodList?.length === 0 && (
-              <li>검색 결과가 없습니다.</li>
-            )}
+            {!isLoading && foodList?.length === 0 && <li>검색 결과가 없습니다.</li>}
             {foodList?.map((food) => (
               <li key={food.code} onClick={() => selectFood(food)}>
                 {food.name}

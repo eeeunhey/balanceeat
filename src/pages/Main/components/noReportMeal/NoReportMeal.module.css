@@ -22,18 +22,18 @@
 }
 
 .content {
-    font-size: larger;
-    font-weight: bolder;
-    text-align: center;
+  font-size: larger;
+  font-weight: bolder;
+  text-align: center;
 }
 
 .summary_button {
-    background-color: var(--main);
-    border: 0px;
-    width: 150px;
-    height: 40px;
-    color: var(--white);
-    border-radius: 30px;
-    font-weight: bolder;
-    cursor: pointer;
+  background-color: var(--main);
+  border: 0px;
+  width: 150px;
+  height: 40px;
+  color: var(--white);
+  border-radius: 30px;
+  font-weight: bolder;
+  cursor: pointer;
 }
