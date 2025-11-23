@@ -7,8 +7,6 @@ const StatusNutrients = ({ label, value, goal }) => {
   const nutrientClass =
     label === "단백질" ? styles.protein : label === "탄수화물" ? styles.carbs : styles.fat; // 지방
 
-  // console.log(percent);
-
   return (
     <div className={styles.status_row}>
       <span className={styles.label}>{label}</span>

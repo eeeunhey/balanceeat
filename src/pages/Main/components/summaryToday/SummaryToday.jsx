@@ -8,7 +8,7 @@ import { useTodaySummary } from "../../../../stores/useTodaySummary";
 import { getTodayMealAiReport } from "../../../../utils/geminiAiApi";
 import { useUserGoal } from "../../../../stores/useUsergoalStore";
 
-const SummaryToday = ({ data }) => {
+const SummaryToday = () => {
   const fadeUp = {
     hidden: { opacity: 0, y: 40 },
     show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
@@ -23,7 +23,6 @@ const SummaryToday = ({ data }) => {
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  console.log(data);
 
   const goRecord = () => {
     navigate("/record");
@@ -45,6 +44,12 @@ const SummaryToday = ({ data }) => {
   };
 
   const retry = async () => {
+    if(Object.keys(savedGoal).length === 0){
+      alert('목표 설정을 먼저 해주세요!');
+      navigate('/settings');
+      return false;
+    }
+
     if (count <= 0 || isLoading) return;
 
     const ai = await getTodayMealAiReport(totalNutrition);
@@ -134,9 +139,6 @@ const SummaryToday = ({ data }) => {
         </button>
         <button className={styles.btn_outline} onClick={goGoalSetting}>
           목표 설정
-        </button>
-        <button className={styles.btn_outline} onClick={goGoalSetting}>
-          다시 요약하기
         </button>
       </div>
     </motion.div>
