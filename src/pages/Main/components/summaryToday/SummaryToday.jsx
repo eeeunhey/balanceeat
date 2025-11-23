@@ -135,6 +135,9 @@ const SummaryToday = ({ data }) => {
         <button className={styles.btn_outline} onClick={goGoalSetting}>
           목표 설정
         </button>
+        <button className={styles.btn_outline} onClick={goGoalSetting}>
+          다시 요약하기
+        </button>
       </div>
     </motion.div>
   );
