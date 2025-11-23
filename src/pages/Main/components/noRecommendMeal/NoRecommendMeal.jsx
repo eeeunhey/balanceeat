@@ -15,7 +15,6 @@ const NoRecommendMeal = () => {
   };
 
   useEffect(() => {
-    console.log(meals);
     if (meals.breakfast.length === 0) {
       setNoTodayMeal(true);
     } else {
