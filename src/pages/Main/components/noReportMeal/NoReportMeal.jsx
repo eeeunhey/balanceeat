@@ -5,11 +5,14 @@ import { motion } from "motion/react"
 import { useMealStore } from '../../../../stores/useMealStore'
 import { getToday } from '../../../../utils/getToday'
 import { getTodayMealAiReport } from '../../../../utils/geminiAiApi'
+import { useNutritionStore } from '../../../../stores/useNutritionStore'
+import { useUserGoal } from '../../../../stores/useUsergoalStore'
 
 const NoReportMeal = () => {
-  const {getMealsByDate, calculateDailyTotal, totalNutrition} = useMealStore();
-  const [meals, setMeals] = useState(getMealsByDate(getToday()));
+  const {getAllMealsByDate} = useMealStore();
+  const [meals, setMeals] = useState(getAllMealsByDate(getToday()));
   const [noTodayMeal, setNoTodayMeal] = useState(true);
+  const {savedGoal} = useUserGoal();
 
   const fadeUp = {
     hidden: {opacity: 0, y: 60},
@@ -18,15 +21,16 @@ const NoReportMeal = () => {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   calculateDailyTotal(getToday());
-  // }, [getToday()]);
-
   useEffect(() => {
-    if(meals.breakfast.length === 0){
-      setNoTodayMeal(true);
+    if(meals.length !== 0){
+      meals.map((meal) => {
+        if(meal.length !== 0){
+          setNoTodayMeal(false);
+          return;
+        }
+      });
     } else{
-      setNoTodayMeal(false);
+      setNoTodayMeal(true);
     }
   }, [meals]);
 
@@ -35,7 +39,12 @@ const NoReportMeal = () => {
   };
 
   const goTodaySummary = async () => {
-    const aiResult = await getTodayMealAiReport(totalNutrition, goal);
+  console.log(savedGoal);
+    if(Object.keys(savedGoal).length === 0){
+      alert('목표 설정을 먼저 해주세요!');
+      navigate('/settings');
+    }
+    // const aiResult = await getTodayMealAiReport(totalNutrition, goal);
   };
 
   return (

@@ -3,10 +3,11 @@ import styles from './NoRecommendMeal.module.css'
 import { motion } from "motion/react"
 import { useMealStore } from '../../../../stores/useMealStore';
 import { getToday } from '../../../../utils/getToday'
+import { useNutritionStore } from '../../../../stores/useNutritionStore';
 
 const NoRecommendMeal = () => {
-  const {getMealsByDate} = useMealStore();
-  const [meals, setMeals] = useState(getMealsByDate(getToday()));
+  const {getAllMealsByDate} = useMealStore();
+  const [meals, setMeals] = useState(getAllMealsByDate(getToday()));
   const [noTodayMeal, setNoTodayMeal] = useState(true);
 
   const fadeUp = {
@@ -15,11 +16,15 @@ const NoRecommendMeal = () => {
   };
 
   useEffect(() => {
-    console.log(meals);
-    if(meals.breakfast.length === 0){
-      setNoTodayMeal(true);
+    if(meals.length !== 0){
+      meals.map((meal) => {
+        if(meal.length !== 0){
+          setNoTodayMeal(false);
+          return;
+        }
+      });
     } else{
-      setNoTodayMeal(false);
+      setNoTodayMeal(true);
     }
   }, [meals]);
 

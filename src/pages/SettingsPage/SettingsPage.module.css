@@ -232,6 +232,22 @@
   filter: brightness(0.9);
 }
 
+/* validation */
+.input_error {
+  border: 1px solid #ff4e4e !important;
+  background-color: #fff6f6 !important;
+}
+
+.error_message {
+  font-size: 13px;
+  color: #ff4e4e;
+  margin-top: 4px;
+}
+
+.nutritionInput {
+  background-color: transparent;
+}
+
 @media (max-width: 500px) {
   .gridRow {
     grid-template-columns: 1fr;
