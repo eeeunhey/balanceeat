@@ -46,6 +46,46 @@
 
 ---
 
+## 🧱 Tech Stack & API Integration
+
+### 🥗 Nutrition API
+- **농촌진흥청 국립식량과학원 – 농식품 식단관리 API**
+- 음식별 영양 성분 조회 (칼로리, 탄단지, 나트륨 등)
+- 사용자 입력 식단의 **끼니별 / 하루 단위 분석을 위한 기초 데이터**로 활용
+
+### 🤖 AI
+- **Gemini AI API**
+- 하루 식단 데이터를 기반으로:
+  - 영양 분석 코멘트 생성
+  - 부족/과다 영양소 판단
+  - 다음 끼니 추천
+- 프로젝트의 핵심 흐름:  
+  **기록 → 분석 → 인사이트 제공**
+
+### 💾 Data Storage
+- **Local Storage 기반 저장**
+- 서버 없이도 사용자 식단 기록 유지
+- 추후 DB 연동을 고려한 구조로 설계
+
+---
+
+## 🤝 Team Cooperation
+
+### 🎨 Design
+- **Figma**
+- 서비스 구조 및 UI 흐름 정리
+- 주요 페이지 와이어프레임 공유
+- 디자인 가이드 기반 협업
+
+### 🌿 Git / Collaboration
+- **Git Flow 전략**
+  - `main / develop` 브랜치 분리
+  - 기능 단위 `feature` 브랜치 개발
+- **Commit Convention**
+  - `feat / fix / refactor / style / docs`
+  - 코드 리뷰 및 히스토리 관리 효율 향상
+
+---
 ## 🧑‍💻 Team
 
 <table>
@@ -89,46 +129,4 @@
   </tr>
 </table>
 
----
 
-## 🧱 Tech Stack & API Integration
-
-### 🥗 Nutrition API
-- **농촌진흥청 국립식량과학원 – 농식품 식단관리 API**
-- 음식별 영양 성분 조회 (칼로리, 탄단지, 나트륨 등)
-- 사용자 입력 식단의 **끼니별 / 하루 단위 분석을 위한 기초 데이터**로 활용
-
-### 🤖 AI
-- **Gemini AI API**
-- 하루 식단 데이터를 기반으로:
-  - 영양 분석 코멘트 생성
-  - 부족/과다 영양소 판단
-  - 다음 끼니 추천
-- 프로젝트의 핵심 흐름:  
-  **기록 → 분석 → 인사이트 제공**
-
-### 💾 Data Storage
-- **Local Storage 기반 저장**
-- 서버 없이도 사용자 식단 기록 유지
-- 추후 DB 연동을 고려한 구조로 설계
-
----
-
-## 🤝 Team Cooperation
-
-### 🎨 Design
-- **Figma**
-- 서비스 구조 및 UI 흐름 정리
-- 주요 페이지 와이어프레임 공유
-- 디자인 가이드 기반 협업
-
-### 🌿 Git / Collaboration
-- **Git Flow 전략**
-  - `main / develop` 브랜치 분리
-  - 기능 단위 `feature` 브랜치 개발
-- **Commit Convention**
-  - `feat / fix / refactor / style / docs`
-  - 코드 리뷰 및 히스토리 관리 효율 향상
-
-### 📁 Folder Convention
-- 역할 기반 구조
